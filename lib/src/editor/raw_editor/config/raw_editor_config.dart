@@ -12,6 +12,7 @@ import '../../../editor/widgets/default_styles.dart';
 import '../../../editor/widgets/delegate.dart';
 import '../../../editor/widgets/link.dart';
 import '../../../toolbar/theme/quill_dialog_theme.dart';
+import '../../widgets/text/magnifier.dart';
 import '../../widgets/text/utils/text_block_utils.dart';
 import '../builders/leading_block_builder.dart';
 import 'events/events.dart';
@@ -28,8 +29,8 @@ class QuillRawEditorConfig {
     required this.embedBuilder,
     required this.textSpanBuilder,
     required this.autoFocus,
-    required this.characterShortcutEvents,
-    required this.spaceShortcutEvents,
+    this.characterShortcutEvents = const [],
+    this.spaceShortcutEvents = const [],
     @experimental this.onKeyPressed,
     this.showCursor = true,
     this.scrollable = true,
@@ -70,6 +71,7 @@ class QuillRawEditorConfig {
     this.readOnlyMouseCursor = SystemMouseCursors.text,
     this.onPerformAction,
     @experimental this.customLeadingBuilder,
+    this.quillMagnifierBuilder,
   });
 
   /// Controls whether this editor has keyboard focus.
@@ -315,10 +317,10 @@ class QuillRawEditorConfig {
   ///
   /// Defaults to Material/Cupertino App Brightness.
   ///
-  /// The keyboardd appearance will set using the following:
+  /// The keyboard appearance will set using the following:
   ///
   /// ```dart
-  /// widget.configurations.keyboardAppearance ??
+  /// widget.config.keyboardAppearance ??
   /// CupertinoTheme.maybeBrightnessOf(context) ??
   /// Theme.of(context).brightness
   /// ```
@@ -408,4 +410,7 @@ class QuillRawEditorConfig {
 
   /// Called when a text input action is performed.
   final void Function(TextInputAction action)? onPerformAction;
+
+  /// Used to build the [QuillMagnifier] when long-pressing/dragging selection
+  final QuillMagnifierBuilder? quillMagnifierBuilder;
 }
